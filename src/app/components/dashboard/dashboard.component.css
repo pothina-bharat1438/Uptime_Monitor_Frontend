@@ -1,0 +1,18 @@
+#dashboardTable table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+}
+
+#dashboardTable th,
+#dashboardTable td {
+  white-space: nowrap;
+  text-align: left;
+}
+
+th .text-center {
+  text-align: center !important;
+}
+
+
+

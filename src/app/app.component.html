@@ -1,0 +1,35 @@
+<div class="container-fluid mt-2">
+  <div class="row min-vh-100">
+    <!-- Sidebar -->
+    <div class="col-md-2 bg-dark text-white p-3 d-flex flex-column shadow">
+      <h5 class="text-center mb-4 border-bottom pb-2">🔍 Bharat Uptime Monitor</h5>
+      <nav class="nav flex-column nav-pills gap-2">
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="active"
+          class="nav-link text-white"
+          [ngClass]="{ 'bg-primary': router.url === '/dashboard' }"
+        >
+          <i class="pi pi-chart-bar me-2"></i> Dashboard
+        </a>
+        <a
+          routerLink="/endpoint-form"
+          routerLinkActive="active"
+          class="nav-link text-white"
+          [ngClass]="{ 'bg-primary': router.url === '/endpoint-form' }"
+        >
+          <i class="pi pi-plus-circle me-2"></i> Add Endpoint
+        </a>
+      </nav>
+      <div class="mt-auto text-center small text-muted">
+        <hr />
+        <span>© 2025 MonitorApp</span>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-10 bg-light p-4">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

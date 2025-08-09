@@ -1,0 +1,74 @@
+<div *ngIf="loading" class="text-center my-5">
+  <p-progressSpinner styleClass="custom-spinner"></p-progressSpinner>
+  <p class="mt-3 text-muted">Loading endpoints...</p>
+</div>
+
+<div *ngIf="error && !loading" class="text-center my-5">
+  <i class="pi pi-exclamation-triangle text-danger" style="font-size: 2rem;"></i>
+  <p class="text-danger">Failed to load endpoints.</p>
+  <button class="btn btn-outline-primary" (click)="retry()">Retry</button>
+</div>
+
+<div *ngIf="!loading && !error && endpoints.length === 0" class="text-center my-5">
+  <i class="pi pi-database text-muted" style="font-size: 2rem;"></i>
+  <p class="text-muted">No endpoints found.</p>
+</div>
+
+<div *ngIf="!loading && !error && endpoints.length > 0" class="card shadow-sm border-0">
+  <div class="card-body px-3 pb-3 pt-2">
+
+    <div class="d-flex justify-content-end mb-3">
+      <p-splitButton 
+        label="Export" 
+        icon="pi pi-download" 
+        [model]="exportOptions"
+        styleClass="p-button-sm p-button-outlined p-button-success">
+      </p-splitButton>
+    </div>
+
+    <!-- Export container -->
+    <div id="dashboardTable">
+      <table class="table table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Name</th>
+            <th>Method</th>
+            <th>URL</th>
+            <th>Status</th>
+            <th>Response Time (ms)</th>
+            <th>Checked At</th>
+            <th class="no-export">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ep of endpoints">
+            <td class="fw-semibold">{{ ep.name }}</td>
+            <td>{{ ep.method }}</td>
+            <td class="text-muted">
+              <a style="color:rgb(15, 111, 149)" target="_blank">{{ ep.url }}</a>
+            </td>
+            <td>
+              <span class="fw-bold" [ngClass]="{
+                'text-success': ep?.status === 'up',
+                'text-danger': ep?.status !== 'up'
+              }">
+                {{ ep?.status || 'Unknown' }}
+              </span>
+            </td>
+            <td class="text-center">{{ (ep.response_time/1000).toFixed(2) }}</td>
+            <td>{{ ep.timestamp | date: 'short' }}</td>
+            <td class="no-export">
+              <p-splitButton 
+                icon="pi pi-cog" 
+                [model]="ep.actions" 
+                styleClass="p-button-outlined p-button-secondary p-button-sm w-full">
+              </p-splitButton>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- End of export container -->
+
+  </div>
+</div>

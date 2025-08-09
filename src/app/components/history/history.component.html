@@ -1,0 +1,86 @@
+<div class="card shadow-sm border-0 p-3">
+
+  <!-- Endpoint Info Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+    <div class="d-flex align-items-center">
+      <i class="pi pi-link me-2 text-primary fs-4"></i>
+      <h4 class="mb-0 fw-bold me-3">
+        {{ endpointHistoryData[0]?.name }}
+      </h4>
+      <a 
+        style="color:rgb(15, 111, 149);text-decoration: none;" 
+        target="_blank" 
+        class="badge bg-light text-primary border"
+        style="font-size: 0.95rem; padding: 0.5rem 0.75rem;"
+      >
+        {{ endpointHistoryData[0]?.url }}
+        <i class="pi pi-external-link ms-1"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- History Table -->
+  <p-table 
+    [value]="endpointHistoryData" 
+    [paginator]="endpointHistoryData.length > 0" 
+    [rows]="10" 
+    responsiveLayout="scroll"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    styleClass="p-datatable-sm">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Log ID</th>
+        <th>Response Time (ms)</th>
+        <th>Status</th>
+        <th>Checked At</th>
+        <th>Message</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-log>
+      <tr>
+        <td>{{ log.logid }}</td>
+        <td>{{ log.response_time }}</td>
+        <td>
+          <span class="fw-bold" [ngClass]="{
+                    'text-success': log?.status === 'up',
+                    'text-danger': log?.status !== 'up'
+                  }">
+            {{ log?.status || 'Unknown' }}
+          </span>
+        </td>
+        <td>{{ log.timestamp | date: 'short' }}</td>
+        <td>
+          <span class="fw-bold" [ngClass]="{
+                    'text-success': log?.status === 'up',
+                    'text-danger': log?.status !== 'up'
+                  }">
+            {{ log?.error_message || (log.status == 'up' ? "--No Message--" : 'Unknown') }}
+          </span>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">
+          <div class="text-center py-4" *ngIf="!loading; else loadingTpl">
+            <img src="assets/images/no-data.svg" alt="No data" width="150" class="mb-3" />
+            <h5 class="text-muted">No history records found for this endpoint</h5>
+            <button class="btn btn-outline-primary mt-3" (click)="retryFetch()">Retry</button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- Loading Spinner Template -->
+  <ng-template #loadingTpl>
+    <div class="text-center py-5">
+      <p-progressSpinner styleClass="custom-spinner"></p-progressSpinner>
+      <div class="text-muted mt-3">Loading endpoint history...</div>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,69 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="container mt-4">
+  <div class="row g-2 align-items-start">
+
+    <!-- HTTP Method Dropdown -->
+    <div class="col-md-2">
+      <label for="apiMethod" class="form-label">Method</label>
+      <p-dropdown id="apiMethod" class="w-100 fixed-height custom-dropdown" [options]="httpMethods"
+        formControlName="method" placeholder="Select Method" optionLabel="label" optionValue="value" [showClear]="false"
+        [ngClass]="{ 'is-invalid': form.get('method')?.invalid && form.get('method')?.touched }"></p-dropdown>
+      <div class="error-space">
+        <div class="invalid-feedback d-block" *ngIf="form.get('method')?.invalid && form.get('method')?.touched">
+          Method is required.
+        </div>
+      </div>
+    </div>
+
+    <!-- API Name -->
+    <div class="col-md-2">
+      <label for="apiName" class="form-label">API Name</label>
+      <input type="text" id="apiName" formControlName="name" class="form-control fixed-height" placeholder="e.g. Google"
+        [class.is-invalid]="form.get('name')?.invalid && form.get('name')?.touched" required />
+      <div class="error-space">
+        <div class="invalid-feedback d-block" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+          Name is required.
+        </div>
+      </div>
+    </div>
+
+    <!-- API URL -->
+    <div class="col-md-4">
+      <label for="apiUrl" class="form-label">API URL</label>
+      <input type="url" id="apiUrl" formControlName="url" class="form-control fixed-height"
+        placeholder="https://api.example.com/health"
+        [class.is-invalid]="form.get('url')?.invalid && form.get('url')?.touched" required />
+      <div class="error-space">
+        <div class="invalid-feedback d-block" *ngIf="form.get('url')?.invalid && form.get('url')?.touched">
+          URL is required and must be valid.
+        </div>
+      </div>
+    </div>
+
+    <!-- Add API Button -->
+    <div class="col-md-2">
+      <label class="form-label invisible">Add</label>
+      <button type="submit" class="btn btn-primary w-100 fixed-height">
+        Add API
+      </button>
+      <div class="error-space"></div>
+    </div>
+
+ <!-- Reset Button -->
+<div class="col-md-2">
+  <label class="form-label invisible">Reset</label>
+  <div class="d-grid">
+    <button
+      type="button"
+      class="btn btn-reset w-100"
+      (click)="reset()"
+    >
+      <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+    </button>
+  </div>
+  <div class="error-space"></div>
+</div>
+
+
+
+  </div>
+</form>
